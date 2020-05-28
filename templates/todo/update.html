@@ -1,0 +1,34 @@
+
+{% extends "todo/base.html" %}
+
+{% block title %}
+Todo-Update
+{% endblock title %}
+
+
+{% block body %}
+<div class="container" style="padding-top:20px;">
+	<div class="container" style="border:2px solid">
+		<form method="post" style="padding-top:5px;padding-bottom:5px">
+			{% csrf_token %}
+			<div class="form-group" >
+				<label for="title">Task</label>
+{#                value = "{{ task.title }}"#}
+                <textarea  name = "update_task" class="form-control" id="title" aria-describedby="TaskHelp" placeholder="Enter task to update">{{ task.title }}</textarea>
+				<small id="taskmsg" class="form-text text-muted">Let me help you update your task...</small>
+			</div>
+			<div class="row">
+				<div style="padding-left:10px">
+					<button type="submit" class="btn btn-primary">Update</button>
+				</div>
+				<div style="padding-left:10px;padding-top:5px">
+					<div class="custom-control custom-switch" >
+                        <input name = "task_completed" type="checkbox" class="custom-control-input" id="task_completed">
+						<label class="custom-control-label" for="task_completed">Task completed</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock body %}

@@ -1,0 +1,22 @@
+{% extends "todo/base.html" %}
+
+{% block title %}Todo-Delete{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+
+	<h1>Are you sure?</h1>
+
+
+	<p>Are you sure you want to delete the task "{{ task.title }}"? All of the following related items will be deleted:</p>
+
+	<form method="post" action="">
+		{% csrf_token %}
+		<div>
+			<button type="submit" class="btn btn-danger text-white" name="confirm_delete">Yes, I'm sure</button>
+			<a type="button" class="btn btn-success" href="{% url 'todo:index'%}">No, take me back</a>
+		</div>
+	</form>
+</div>
+{% endblock body %}

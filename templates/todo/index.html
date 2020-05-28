@@ -1,0 +1,94 @@
+{% extends "todo/base.html" %}
+
+{% block title %}
+    Todo-Home
+{% endblock title %}
+
+
+{% block body %}
+    <div class="container" style="padding-top:20px;">
+        <div style="height: 75px">
+            <h3 class="jumbotron-heading">
+                <span id="typed"></span>
+                <span class="typed-cursor typed-cursor--blink"></span>
+            </h3>
+        </div>
+        <div class="container" style="border:2px solid #403f3f;border-radius: 15px">
+            <form method="post" style="padding-top:5px;padding-bottom:5px">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="textTask" style="font-size: 20px;font-weight: bold">Task</label>
+                    <textarea name='taskTitle' type="text" class="form-control" id="title" aria-describedby="TaskHelp"
+                              placeholder="Enter your todo here..." required></textarea>
+                    <small id="taskmsg" class="form-text text-muted">Let me help you remember your todo...</small>
+                </div>
+                {#            replace the bottom statement for production#}
+                {#			<button type="submit" class="btn btn-primary bg-dark" style="border: black">Add</button>#}
+                <button type="button" onclick="Demo()" class="demo btn btn-primary bg-dark" style="border: black">Add
+                </button>
+            </form>
+        </div>
+
+
+        {% if tasks %}
+            <div class="row" style="padding-top:10px;">
+                {% for task in tasks %}
+                    {% if task.complete == False %}
+                        <div class="col-sm-6" style="padding:10px">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ task.title }}</h5>
+                                    <a type="button" class="btn btn-primary btn-sm"
+                                       href="{% url 'todo:update_task' task.id %}">Update</a>
+                                    <a type="button" class="btn btn-danger btn-sm"
+                                       href="{% url 'todo:delete_task' task.id %}">Delete</a>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    {{ task.created }}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-sm-6" style="padding:10px">
+                            <div class="card text-center">
+                                <div class="card-body  bg-success">
+                                    <h5 class="card-title">{{ task.title }}</h5>
+                                    <a type="button" class="btn btn-danger btn-sm"
+                                       href="{% url 'todo:delete_task' task.id %}">Delete</a>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    {{ task.created }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="container" style="padding-top:20px">
+                <h3>No Tasks</h3>
+            </div>
+
+        {% endif %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.9/typed.min.js"></script>
+
+    <script>
+        window.onload = function () {
+            var typed = new Typed('#typed', {
+                strings: ["Welcome to I'm TODO", "Give Us Your Todos To manage :)"],
+                backSpeed: 15,
+                smartBackspace: true,
+                backDelay: 1200,
+                startDelay: 1000,
+                typeSpeed: 25,
+                loop: true,
+            });
+        };
+    </script>
+    <script>
+        function Demo() {
+            alert("Sorry..., Only Admin Can Add Todos Contact Admin...");
+        }
+    </script>
+{% endblock body %}
